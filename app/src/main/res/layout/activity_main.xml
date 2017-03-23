@@ -15,8 +15,9 @@
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:wave="0.3"
-        app:speed="0.4" />
+        android:layout_centerHorizontal="true"
+        app:speed="0.4"
+        app:wave="0.3" />
 
     <SeekBar
         android:id="@+id/seek"

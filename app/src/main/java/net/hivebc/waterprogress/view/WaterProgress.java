@@ -22,7 +22,7 @@ import net.hivebc.waterprogress.R;
  */
 
 public class WaterProgress extends View {
-    public static final int defaultDiam = 200;
+    public static final int defaultDiam = 100;
     public static final int MIN_DIAM_SIZE = 20;
     private final int maxProgress = 100;
     Paint paint = new Paint();
@@ -167,8 +167,8 @@ public class WaterProgress extends View {
         path.quadTo(-diam * 3f / 4 + offset, levelHeight + quarterDiameter * wave, -diam / 2f + offset, levelHeight);
         path.quadTo(-quarterDiameter + offset, levelHeight - quarterDiameter * wave, offset, levelHeight);
         path.quadTo(quarterDiameter + offset, levelHeight + quarterDiameter * wave, diam / 2f + offset, levelHeight);
-        path.quadTo(diam * 3f / 4 + offset, levelHeight - quarterDiameter * wave, diam + offset, levelHeight);
-        path.lineTo(diam, diam + strokeWidth * 2);
+        path.quadTo(diam * 3f / 4 + offset, levelHeight - quarterDiameter * wave, diam + strokeWidth * 2 + offset, levelHeight);
+        path.lineTo(diam + strokeWidth * 2 + offset, diam + strokeWidth * 2);
         path.close();
     }
 
