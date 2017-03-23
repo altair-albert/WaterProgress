@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="WaterProgress">
+        <!--波纹速度0-1-->
         <attr name="speed" format="float" />
+        <!--波纹幅度0-1 -->
         <attr name="wave" format="float" />
+        <!--最大值-->
         <attr name="max" format="integer" />
+        <!-- 波纹颜色-->
         <attr name="color" format="color" />
         <attr name="backgroundColor" format="color" />
+        <!--是否显示进度-->
         <attr name="showProgress" format="boolean" />
+        <!--球形半径大小-->
         <attr name="diam" format="dimension" />
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
     </declare-styleable>
 </resources>

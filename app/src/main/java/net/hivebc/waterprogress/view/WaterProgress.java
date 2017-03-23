@@ -37,8 +37,9 @@ public class WaterProgress extends View {
     private float yCircle;
     private int color;
     private int backgroundColor;
+    private int textColor;
     private int offset = 1;
-    private int strokSize = dp2px(4);
+    private int strokeWidth = dp2px(4);
     private float textSize = dp2px(20);
 
     public WaterProgress(Context context) {
@@ -68,12 +69,14 @@ public class WaterProgress extends View {
         showProgress = a.getBoolean(R.styleable.WaterProgress_showProgress, true);
         color = a.getColor(R.styleable.WaterProgress_color, Color.CYAN);
         backgroundColor = a.getColor(R.styleable.WaterProgress_backgroundColor, Color.WHITE);
+        textSize = a.getDimension(R.styleable.WaterProgress_textSize, dp2px(20));
+        textColor = a.getColor(R.styleable.WaterProgress_textColor, Color.BLACK);
         float diam = a.getDimension(R.styleable.WaterProgress_diam, dp2px(defaultDiam));
         setDiam(diam);
         a.recycle();
         radius = diam / 2f;
-        xCircle = radius + strokSize;
-        yCircle = radius + strokSize;
+        xCircle = radius + strokeWidth;
+        yCircle = radius + strokeWidth;
     }
 
     public synchronized void setSpeed(@FloatRange(from = 0.0, to = 1f) float speed) {
@@ -86,7 +89,7 @@ public class WaterProgress extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension((int) diam + strokSize * 2, (int) diam + strokSize * 2);
+        setMeasuredDimension((int) diam + strokeWidth * 2, (int) diam + strokeWidth * 2);
     }
 
     public void setDiam(float diam) {
@@ -112,7 +115,7 @@ public class WaterProgress extends View {
 
     private void drawProgress(Canvas canvas) {
         paint.reset();
-        paint.setColor(Color.BLACK);
+        paint.setColor(textColor);
         paint.setAntiAlias(true);
         paint.setTextSize(textSize);
         paint.setTextAlign(Paint.Align.CENTER);
@@ -137,8 +140,11 @@ public class WaterProgress extends View {
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(color);
-        paint.setStrokeWidth(strokSize);
-        canvas.drawColor(backgroundColor);
+        paint.setStrokeWidth(strokeWidth);
+        canvas.drawCircle(xCircle, yCircle, radius, paint);
+        paint.reset();
+        paint.setColor(backgroundColor);
+        paint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(xCircle, yCircle, radius, paint);
     }
 
@@ -154,7 +160,7 @@ public class WaterProgress extends View {
     private void buildWave(@NonNull Path path) {
         // wave path
         path.reset();
-        path.moveTo(-diam + offset, diam + strokSize * 2);
+        path.moveTo(-diam + offset, diam + strokeWidth * 2);
         float levelHeight = getLevelHeight(progress);
         float quarterDiameter = diam / 4f;
         path.lineTo(-diam + offset, levelHeight);
@@ -162,7 +168,7 @@ public class WaterProgress extends View {
         path.quadTo(-quarterDiameter + offset, levelHeight - quarterDiameter * wave, offset, levelHeight);
         path.quadTo(quarterDiameter + offset, levelHeight + quarterDiameter * wave, diam / 2f + offset, levelHeight);
         path.quadTo(diam * 3f / 4 + offset, levelHeight - quarterDiameter * wave, diam + offset, levelHeight);
-        path.lineTo(diam, diam + strokSize * 2);
+        path.lineTo(diam, diam + strokeWidth * 2);
         path.close();
     }
 
