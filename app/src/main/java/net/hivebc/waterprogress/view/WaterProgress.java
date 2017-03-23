@@ -63,6 +63,11 @@ public class WaterProgress extends View {
         init(a);
     }
 
+    public synchronized void setShowProgress(boolean showProgress) {
+        this.showProgress = showProgress;
+        postInvalidate();
+    }
+
     private void init(TypedArray a) {
         speed = a.getFloat(R.styleable.WaterProgress_speed, 1f);
         wave = a.getFloat(R.styleable.WaterProgress_wave, 1f);
@@ -81,10 +86,12 @@ public class WaterProgress extends View {
 
     public synchronized void setSpeed(@FloatRange(from = 0.0, to = 1f) float speed) {
         this.speed = speed;
+        postInvalidate();
     }
 
     public synchronized void setWave(@FloatRange(from = 0.0, to = 1f) float wave) {
         this.wave = wave;
+        postInvalidate();
     }
 
     @Override
@@ -92,7 +99,7 @@ public class WaterProgress extends View {
         setMeasuredDimension((int) diam + strokeWidth * 2, (int) diam + strokeWidth * 2);
     }
 
-    public void setDiam(float diam) {
+    private void setDiam(float diam) {
         if (diam < dp2px(MIN_DIAM_SIZE))
             diam = dp2px(MIN_DIAM_SIZE);
         this.diam = diam;
@@ -143,6 +150,7 @@ public class WaterProgress extends View {
         paint.setStrokeWidth(strokeWidth);
         canvas.drawCircle(xCircle, yCircle, radius, paint);
         paint.reset();
+        paint.setAntiAlias(true);
         paint.setColor(backgroundColor);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(xCircle, yCircle, radius, paint);
@@ -162,12 +170,12 @@ public class WaterProgress extends View {
         path.reset();
         path.moveTo(-diam + offset, diam + strokeWidth * 2);
         float levelHeight = getLevelHeight(progress);
-        float quarterDiameter = diam / 4f;
+        float quarterDiam = diam / 4f;
         path.lineTo(-diam + offset, levelHeight);
-        path.quadTo(-diam * 3f / 4 + offset, levelHeight + quarterDiameter * wave, -diam / 2f + offset, levelHeight);
-        path.quadTo(-quarterDiameter + offset, levelHeight - quarterDiameter * wave, offset, levelHeight);
-        path.quadTo(quarterDiameter + offset, levelHeight + quarterDiameter * wave, diam / 2f + offset, levelHeight);
-        path.quadTo(diam * 3f / 4 + offset, levelHeight - quarterDiameter * wave, diam + strokeWidth * 2 + offset, levelHeight);
+        path.quadTo(-diam * 3f / 4 + offset, levelHeight + quarterDiam * wave, -diam / 2f + offset, levelHeight);
+        path.quadTo(-quarterDiam + offset, levelHeight - quarterDiam * wave, offset, levelHeight);
+        path.quadTo(quarterDiam + offset, levelHeight + quarterDiam * wave, diam / 2f + offset, levelHeight);
+        path.quadTo(diam * 3f / 4 + offset, levelHeight - quarterDiam * wave, diam + strokeWidth * 2 + offset, levelHeight);
         path.lineTo(diam + strokeWidth * 2 + offset, diam + strokeWidth * 2);
         path.close();
     }
@@ -180,7 +188,7 @@ public class WaterProgress extends View {
         return progress * 1f / maxProgress * 100;
     }
 
-    public int dp2px(int value) {
+    private int dp2px(int value) {
         final float scale = getResources().getDisplayMetrics().densityDpi;
         return (int) (value * (scale / 160) + 0.5f);
     }
