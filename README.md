@@ -1,6 +1,10 @@
-# WaterProgress
+WaterProgress
+============
+
 Android 水波进度条
-使用方法
+
+
+## 使用方法
 ```xml
     <net.hivebc.waterprogress.view.WaterProgress
         android:id="@+id/progress"
@@ -30,3 +34,7 @@ showProgress|是否显示进度|boolean
 diam|球形半径大小|dimension
 textColor|进度文字颜色|color
 textSize|进度文字大小|dimension
+
+## 截图
+
+![截图](./img/1.png)
